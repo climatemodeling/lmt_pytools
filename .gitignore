@@ -2,3 +2,6 @@
 *.html
 *.htm
 *json
+enso_metric/*.json
+enso_metric/__pycache__/*
+__pycache__/*

@@ -25,7 +25,7 @@ defaultkeys = {'model': DictKeyWords['model'], 'ensemble': DictKeyWords['other']
 
 cmecJson = CMECJsonSchema('v1', 'PMP')
 
-for MipJson in [Fncmip5Json, Fncmip6Json]:
+for i, MipJson in enumerate([Fncmip5Json, Fncmip6Json]):
     VarJsonCmip5 = ReadEnsoJson (MipJson)
     
     # find all the keys:
@@ -39,17 +39,33 @@ for MipJson in [Fncmip5Json, Fncmip6Json]:
             metrics.extend(VarJsonCmip5['RESULTS']['model'][md][en]['value'].keys())
     
     ensembles = list(set(ensembles))
+
+    if 'cmip5' in MipJson:
+       temp = ensembles
+       ensembles = []
+       for e in temp:
+           ensembles.append(e+'f1')
+
     metrics = list(set(metrics))
-    print (models)
-    print (ensembles)
-    print (metrics)
+    print (len(models))
+    print (len(ensembles))
+    print (len(metrics))
     dimensions = [models, ensembles, metrics]
     
     cJson = CMECJsonSchema('v1', 'PMP')
-    cJson.set_dimensions(structure, dimensions, defaultkeys, 'CMIP5 ESGF')
+
+    if i == 0:
+       cJson.set_dimensions(structure, dimensions, defaultkeys, 'CMIP5 ESGF')
+    else:
+       cJson.set_dimensions(structure, dimensions, defaultkeys, 'CMIP6 ESGF')
+
     DimsFilter = {'model':[], 'ensemble':[], 'metric':metrics}
     cJson.set_results(VarJsonCmip5, DimsFilter)
-    cmecJson.merge(cJson)
+
+    if i == 0:
+       cmecJson = cJson
+    else:
+       cmecJson.merge(cJson)
     
 with open ("pmp_enso_tel.json", "w") as fw:
     json.dump(cmecJson.CMECJsonDict, fw)

@@ -46,10 +46,17 @@ for i, MipJson in enumerate([Fncmip5Json, Fncmip6Json]):
             metrics.extend(VarJsonCmip5['RESULTS']['model'][md][en]['value'].keys())
     
     ensembles = list(set(ensembles))
+
+    if 'cmip5' in MipJson:
+       temp = ensembles
+       ensembles = []
+       for e in temp:
+           ensembles.append(e+'f1')
+
     metrics = list(set(metrics))
-    print (models)
-    print (ensembles)
-    print (metrics)
+    print (len(models))
+    print (len(ensembles))
+    print (len(metrics))
     dimensions = [models, ensembles, metrics]
     
     cJson = CMECJsonSchema('v1', 'PMP')

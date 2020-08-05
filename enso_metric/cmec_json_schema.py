@@ -35,33 +35,37 @@ class CMECJsonSchema:
               RltDict[md] = {}
               for en in VarJson["RESULTS"]["model"][md].keys():
 
+                  if not 'f' in en:
+                     ens = en + 'f1'
+                  else:
+                     ens = en
+
                   if len(Filter['ensemble']) > 0:
                      if en not in Filter['ensemble']:
                         continue
 
-                  RltDict[md][en] = {}
+                  RltDict[md][ens] = {}
                   for mt in VarJson["RESULTS"]["model"][md][en]["value"].keys():
 
-                      print ( md, en, mt, VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"].keys() )
+                      #print ( md, en, mt, VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"].keys() )
                       if len(Filter['metric']) > 0:
                          if mt not in Filter['metric']:
                             continue
                       try:
-                          RltDict[md][en][mt] = VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"]["Tropflux"]["value"]
+                          RltDict[md][ens][mt] = VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"]["Tropflux"]["value"]
                       except:
                           try:
-                             RltDict[md][en][mt] = VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"]["Tropflux_ERA-Interim"]["value"]
+                             RltDict[md][ens][mt] = VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"]["Tropflux_ERA-Interim"]["value"]
                           except:
 
                              try: 
-                                RltDict[md][en][mt] = VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"]["ERA-Interim"]["value"]
+                                RltDict[md][ens][mt] = VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"]["ERA-Interim"]["value"]
                              except:
-                                RltDict[md][en][mt] = VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"]["AVISO"]["value"]
+                                RltDict[md][ens][mt] = VarJson["RESULTS"]["model"][md][en]["value"][mt]["metric"]["AVISO"]["value"]
  
-                      print ('xxx', RltDict[md][en][mt])
-                      if not RltDict[md][en][mt] or math.isnan(RltDict[md][en][mt]):
+                      if not RltDict[md][ens][mt] or math.isnan(RltDict[md][ens][mt]):
 
-                         RltDict[md][en][mt] = -999.0
+                         RltDict[md][ens][mt] = -999.0
 
           self.CMECJsonDict["RESULTS"] = RltDict
 

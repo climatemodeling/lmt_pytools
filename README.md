@@ -3,6 +3,7 @@ Conversions of the ILAMB, Tabulator and CMEC JOSN formats
 ***Purpuse***: Converting a JSON in the ILAMB format to the Tabulator and CMEC formats that can be used by 
 LMT unified dashboard directly.
 
+The major functions in the convert_ilamb_scalars.py are:
 
  - read_jsontree: read the ILAMB JSON file and convert to a JSON file in the Tabulator format
  - FlattenTreeOfTabJson: flatten the tree structure of the Tabulator JSON file

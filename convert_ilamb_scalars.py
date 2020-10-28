@@ -152,7 +152,10 @@ DimensionsDict["dimensions"]["statistic"]["indices"]=[]
 DimensionsDict["dimensions"]["statistic"]["short_names"]={}    # shortname : indices
 
 
-OutputDict = {"DIMENSIONS":DimensionsDict, "RESULTS":ResultsDict}
+CMECSchemaDict = {"name": "CMEC", "version": "v1", "package": "ILAMB"}
+
+
+OutputDict = {"SCHEMA":CMECSchemaDict, "DIMENSIONS":DimensionsDict, "RESULTS":ResultsDict}
 
 
 # now realize the class
